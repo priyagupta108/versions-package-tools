@@ -219,12 +219,14 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: bash
       run: |
-         gh release create "${{ inputs.tool-version }}-${{ github.run_id }}" \
-            --repo="$GITHUB_REPOSITORY" \
-            --title '${{ inputs.tool-version }}' \
-            --notes '${{ steps.generate-release-body.outputs.RELEASE_BODY }}'
-         release_id=$(gh release view "${{ inputs.tool-version }}-${{ github.run_id }}" --repo "$GITHUB_REPOSITORY" --json databaseId --jq '.databaseId')
-         echo "id=$release_id" >> $env:GITHUB_OUTPUT
+        release_tag="${{ inputs.tool-version }}-${{ github.run_id }}"
+        gh release create "$release_tag" \
+          --repo "$GITHUB_REPOSITORY" \
+          --title "${{ inputs.tool-version }}" \
+          --notes "${{ steps.generate-release-body.outputs.RELEASE_BODY }}"
+          
+        release_id=$(gh release view "$release_tag" --repo "$GITHUB_REPOSITORY" --json databaseId --jq '.databaseId')
+        echo "id=$release_id" >> $GITHUB_OUTPUT
 
     - name: Generate hash for packages
       run: |
