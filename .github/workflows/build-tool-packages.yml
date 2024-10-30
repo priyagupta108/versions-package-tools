@@ -216,15 +216,15 @@ jobs:
     - name: Publish Release
       id: create_release
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: bash
       run: |
-        gh release create "${{ inputs.tool-version }}-${{ github.run_id }}" \
-          --repo="$GITHUB_REPOSITORY" \
-          --title '${{ inputs.tool-version }}' \
-          --notes "${{ env.RELEASE_BODY }}"
-        release_id=$(gh release view "${{ inputs.tool-version }}-${{ github.run_id }}" --repo "$GITHUB_REPOSITORY" --json databaseId --jq '.databaseId')
-        echo "::set-output name=id::$release_id"
+         gh release create "${{ inputs.tool-version }}-${{ github.run_id }}" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title '${{ inputs.tool-version }}' \
+            --notes '${{ steps.generate-release-body.outputs.RELEASE_BODY }}'
+         release_id=$(gh release view "${{ inputs.tool-version }}-${{ github.run_id }}" --repo "$GITHUB_REPOSITORY" --json databaseId --jq '.databaseId')
+         echo "id=$release_id" >> $env:GITHUB_OUTPUT
 
     - name: Generate hash for packages
       run: |
