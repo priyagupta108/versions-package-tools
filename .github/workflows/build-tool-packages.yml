@@ -82,17 +82,17 @@ jobs:
         - os: windows-latest
           platform: win32
           architecture: x64
-        - os: setup-actions-ubuntu-arm64-2-core
-          platform: linux
-          architecture: arm64
-          runner_type: self-hosted
+        # - os: setup-actions-ubuntu-arm64-2-core
+        #   platform: linux
+        #   architecture: arm64
+        #   runner_type: self-hosted
         - os: macos-latest
           platform: darwin
           architecture: arm64
-        - os: setup-actions-windows-arm64-4-core
-          platform: win32
-          architecture: arm64
-          runner_type: self-hosted
+        # - os: setup-actions-windows-arm64-4-core
+        #   platform: win32
+        #   architecture: arm64
+        #   runner_type: self-hosted
 
     steps:
     - name: Setup Environment on Windows ARM64 Runner
